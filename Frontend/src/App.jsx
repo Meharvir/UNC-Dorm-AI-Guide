@@ -1,16 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 
-
-// Use backend currently running on port 8002
+// Backend URL
 const API_URL = "http://127.0.0.1:8002/query";
 
 async function sendMessageToBackend(message) {
   const res = await fetch(API_URL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message }),
   });
 
@@ -23,30 +20,55 @@ async function sendMessageToBackend(message) {
   return res.json();
 }
 
-
 function App() {
   const [messages, setMessages] = useState([
-    {
-      sender: "bot",
-      text: "Hi! I’m the UNC Dorm Guide. Tell me what you’re looking for in a dorm.",
-    },
+    { sender: "bot", text: "Hi! I'm the UNC Dorm Guide. Tell me what you're looking for in a dorm.", id: 0 },
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sessions, setSessions] = useState([]);
+  const [currentSessionId, setCurrentSessionId] = useState(null);
+  const [showSessions, setShowSessions] = useState(false);
 
   const quickFilters = [
     "Quiet dorm close to classes",
     "Very social dorm with lots of people",
     "Suite-style dorm near the gym",
     "Dorm close to Franklin Street",
+    "Dorm with good dining",
+    "Close to medical school",
   ];
 
+  // Load sessions from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem("dormSessions");
+    if (saved) setSessions(JSON.parse(saved));
+  }, []);
+
+  // Persist sessions
+  useEffect(() => {
+    localStorage.setItem("dormSessions", JSON.stringify(sessions));
+  }, [sessions]);
+
+  // Save messages in current session
+  useEffect(() => {
+    if (!currentSessionId) return;
+    setSessions(prev =>
+      prev.map(s => (s.id === currentSessionId ? { ...s, messages } : s))
+    );
+  }, [messages, currentSessionId]);
+
+  // Send message
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
     const trimmed = input.trim();
     if (!trimmed) return;
 
-    const newMessages = [...messages, { sender: "user", text: trimmed }];
+    const newMessages = [
+      ...messages,
+      { sender: "user", text: trimmed, id: messages.length },
+    ];
     setMessages(newMessages);
     setInput("");
     setIsLoading(true);
@@ -54,15 +76,18 @@ function App() {
     try {
       const data = await sendMessageToBackend(trimmed);
       const botText = data.response || "Sorry, I couldn't generate a response.";
-
-      setMessages([...newMessages, { sender: "bot", text: botText }]);
+      setMessages([
+        ...newMessages,
+        { sender: "bot", text: botText, id: newMessages.length },
+      ]);
     } catch (err) {
       console.error(err);
       setMessages([
         ...newMessages,
         {
           sender: "bot",
-          text: "Oops — I couldn’t reach the server. Try again in a moment.",
+          text: "Oops — I couldn't reach the server. Try again in a moment.",
+          id: newMessages.length,
         },
       ]);
     } finally {
@@ -70,19 +95,105 @@ function App() {
     }
   };
 
-  const handleQuickFilterClick = (text) => {
-    // Just drop the preset into the input; user can tweak then hit Send
-    setInput(text);
+  // Quick filter input
+  const handleQuickFilterClick = (text) => setInput(text);
+
+  // Start a new chat session
+  const startNewSession = () => {
+    const newSession = {
+      id: Date.now(),
+      title: `Chat ${new Date().toLocaleString()}`,
+      messages: [
+        {
+          sender: "bot",
+          text: "Hi! I'm the UNC Dorm Guide. Tell me what you're looking for in a dorm.",
+          id: 0,
+        },
+      ],
+      createdAt: new Date().toISOString(),
+    };
+    setSessions([newSession, ...sessions]);
+    setCurrentSessionId(newSession.id);
+    setMessages(newSession.messages);
   };
+
+  // Load a saved session
+  const loadSession = (sessionId) => {
+    const session = sessions.find(s => s.id === sessionId);
+    if (session) {
+      setCurrentSessionId(sessionId);
+      setMessages(session.messages);
+      setSearchQuery("");
+    }
+  };
+
+  // Delete a session
+  const deleteSession = (sessionId) => {
+    setSessions(prev => prev.filter(s => s.id !== sessionId));
+    if (currentSessionId === sessionId) {
+      setCurrentSessionId(null);
+      setMessages([
+        { sender: "bot", text: "Hi! I'm the UNC Dorm Guide. Tell me what you're looking for in a dorm.", id: 0 },
+      ]);
+    }
+  };
+
+  // Filtered messages for search
+  const filteredMessages = messages.filter(m =>
+    m.text.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="app">
       <header className="app-header">
-        <h1>UNC Dorm Guide</h1>
+        <div className="header-top">
+          <h1>UNC Dorm Guide</h1>
+          <div className="header-buttons">
+            <button
+              className="sessions-toggle"
+              onClick={() => setShowSessions(!showSessions)}
+              title="View saved chats"
+            >
+              💬
+            </button>
+            <button className="new-chat-btn" onClick={startNewSession}>
+              + New Chat
+            </button>
+          </div>
+        </div>
         <p>Find your ideal UNC first-year dorm through conversation.</p>
 
+        {showSessions && (
+          <div className="sessions-panel">
+            <h3>Saved Chats</h3>
+            {sessions.length === 0 ? (
+              <p className="no-sessions">No saved chats yet</p>
+            ) : (
+              <div className="sessions-list">
+                {sessions.map(s => (
+                  <div key={s.id} className="session-item">
+                    <button
+                      className={`session-title ${currentSessionId === s.id ? "active" : ""}`}
+                      onClick={() => loadSession(s.id)}
+                    >
+                      {s.title}
+                    </button>
+                    <button
+                      className="session-delete"
+                      onClick={() => deleteSession(s.id)}
+                      title="Delete chat"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="quick-filters">
-          {quickFilters.map((q) => (
+          {quickFilters.map(q => (
             <button
               key={q}
               type="button"
@@ -97,13 +208,21 @@ function App() {
 
       <div className="main-layout">
         <main className="chat-container">
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="Search messages..."
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              className="search-input"
+            />
+          </div>
+
           <div className="messages">
-            {messages.map((m, idx) => (
+            {filteredMessages.map((m, idx) => (
               <div
                 key={idx}
-                className={`message-row ${
-                  m.sender === "user" ? "user-row" : "bot-row"
-                }`}
+                className={`message-row ${m.sender === "user" ? "user-row" : "bot-row"}`}
               >
                 <div className={`bubble ${m.sender}`}>{m.text}</div>
               </div>
@@ -111,7 +230,9 @@ function App() {
 
             {isLoading && (
               <div className="message-row bot-row">
-                <div className="bubble bot">Thinking…</div>
+                <div className="bubble bot typing">
+                  <span></span><span></span><span></span>
+                </div>
               </div>
             )}
           </div>
@@ -121,7 +242,7 @@ function App() {
               type="text"
               placeholder="Describe your ideal dorm..."
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={e => setInput(e.target.value)}
               disabled={isLoading}
             />
             <button type="submit" disabled={isLoading || !input.trim()}>
@@ -133,6 +254,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
