@@ -1,6 +1,6 @@
 :root {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #13294b; 
+  color: #13294b;
 }
 
 * {
@@ -18,7 +18,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;       
+  align-items: center;
   justify-content: flex-start;
   padding: 1.5rem;
 }
@@ -53,7 +53,7 @@ body {
   margin-top: 0.6rem;
   padding: 0.25rem 0.75rem;
   border-radius: 999px;
-  background: rgba(75, 156, 211, 0.12); 
+  background: rgba(75, 156, 211, 0.12);
   color: #1d4a73;
   font-size: 0.78rem;
 }
@@ -141,8 +141,8 @@ body {
   font-size: 0.95rem;
   outline: none;
 
-  background: #ffffff;      
-  color: #000000;          
+  background: #ffffff;
+  color: #000000;
 
   transition: border-color 0.15s ease,
               box-shadow 0.15s ease,
@@ -207,3 +207,53 @@ body {
   background: rgba(19, 41, 75, 0.18);
   border-radius: 999px;
 }
+
+/* Layout wrapping chat + map */
+.main-layout {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* chat-container flex sizing handled in split layout rules below */
+
+.map-container {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(19, 41, 75, 0.03);
+  padding: 1rem 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Quick filter “chips” under the title */
+.quick-filters {
+  margin-top: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.quick-filter-chip {
+  border: none;
+  border-radius: 999px;
+  padding: 0.25rem 0.8rem;
+  font-size: 0.78rem;
+  background: rgba(75, 156, 211, 0.12);
+  color: #1d4a73;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.08s ease,
+    box-shadow 0.12s ease;
+}
+
+.quick-filter-chip:hover {
+  background: rgba(75, 156, 211, 0.22);
+  box-shadow: 0 4px 10px rgba(19, 41, 75, 0.15);
+  transform: translateY(-1px);
+}
+
+

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import "./App.css";
 
-const API_URL = "http://localhost:8000/query";
+
+// Use backend currently running on port 8002
+const API_URL = "http://127.0.0.1:8002/query";
 
 async function sendMessageToBackend(message) {
   const res = await fetch(API_URL, {
@@ -13,11 +15,14 @@ async function sendMessageToBackend(message) {
   });
 
   if (!res.ok) {
-    throw new Error("Backend error");
+    const text = await res.text();
+    console.error("Backend error:", res.status, text);
+    throw new Error(`HTTP ${res.status}`);
   }
 
   return res.json();
 }
+
 
 function App() {
   const [messages, setMessages] = useState([
@@ -29,16 +34,19 @@ function App() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const quickFilters = [
+    "Quiet dorm close to classes",
+    "Very social dorm with lots of people",
+    "Suite-style dorm near the gym",
+    "Dorm close to Franklin Street",
+  ];
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     const trimmed = input.trim();
     if (!trimmed) return;
 
-    const newMessages = [
-      ...messages,
-      { sender: "user", text: trimmed },
-    ];
-
+    const newMessages = [...messages, { sender: "user", text: trimmed }];
     setMessages(newMessages);
     setInput("");
     setIsLoading(true);
@@ -46,11 +54,10 @@ function App() {
     try {
       const data = await sendMessageToBackend(trimmed);
       const botText = data.response || "Sorry, I couldn't generate a response.";
-      setMessages([
-        ...newMessages,
-        { sender: "bot", text: botText },
-      ]);
+
+      setMessages([...newMessages, { sender: "bot", text: botText }]);
     } catch (err) {
+      console.error(err);
       setMessages([
         ...newMessages,
         {
@@ -63,50 +70,69 @@ function App() {
     }
   };
 
+  const handleQuickFilterClick = (text) => {
+    // Just drop the preset into the input; user can tweak then hit Send
+    setInput(text);
+  };
+
   return (
     <div className="app">
       <header className="app-header">
         <h1>UNC Dorm Guide</h1>
         <p>Find your ideal UNC first-year dorm through conversation.</p>
+
+        <div className="quick-filters">
+          {quickFilters.map((q) => (
+            <button
+              key={q}
+              type="button"
+              className="quick-filter-chip"
+              onClick={() => handleQuickFilterClick(q)}
+            >
+              {q}
+            </button>
+          ))}
+        </div>
       </header>
 
-      <main className="chat-container">
-        <div className="messages">
-          {messages.map((m, idx) => (
-            <div
-              key={idx}
-              className={`message-row ${
-                m.sender === "user" ? "user-row" : "bot-row"
-              }`}
-            >
-              <div className={`bubble ${m.sender}`}>
-                {m.text}
+      <div className="main-layout">
+        <main className="chat-container">
+          <div className="messages">
+            {messages.map((m, idx) => (
+              <div
+                key={idx}
+                className={`message-row ${
+                  m.sender === "user" ? "user-row" : "bot-row"
+                }`}
+              >
+                <div className={`bubble ${m.sender}`}>{m.text}</div>
               </div>
-            </div>
-          ))}
+            ))}
 
-          {isLoading && (
-            <div className="message-row bot-row">
-              <div className="bubble bot">Thinking…</div>
-            </div>
-          )}
-        </div>
+            {isLoading && (
+              <div className="message-row bot-row">
+                <div className="bubble bot">Thinking…</div>
+              </div>
+            )}
+          </div>
 
-        <form className="input-row" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Describe your ideal dorm..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            disabled={isLoading}
-          />
-          <button type="submit" disabled={isLoading || !input.trim()}>
-            Send
-          </button>
-        </form>
-      </main>
+          <form className="input-row" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Describe your ideal dorm..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              disabled={isLoading}
+            />
+            <button type="submit" disabled={isLoading || !input.trim()}>
+              Send
+            </button>
+          </form>
+        </main>
+      </div>
     </div>
   );
 }
+
 
 export default App;

@@ -1,0 +1,226 @@
+# UNC Chapel Hill Dorm Profiles
+
+This file contains summarized profiles for all major UNC residence halls, organized by class year and campus area. Use this as a RAG source for answering dorm-related questions with context on location, style, vibe, features, and notes.
+
+---
+
+🟦 FIRST-YEAR DORMS
+
+Alderman Residence Hall
+Location: North Campus, Upper Quad
+Style: Hall-style
+Vibe: Quiet, studious
+Features: Historic building, small rooms, close to dining & classrooms
+Notes: Popular with honors/campus scholarship students
+
+Alexander Residence Hall
+Location: North Campus, Upper Quad
+Style: Hall-style
+Vibe: Traditional, quiet
+Features: Central location, older historic dorm
+
+Cobb Residence Hall
+Location: North Campus
+Style: Hall-style
+Vibe: Balanced social/academic
+Features: Larger rooms, strong location, close to classes
+
+Connor Residence Hall
+Location: Mid–North Campus
+Style: Hall-style
+Vibe: Friendly, well-rounded
+Features: Community-style bathrooms, popular among first-years
+
+Everett Residence Hall
+Location: Upper Quad
+Style: Hall-style
+Vibe: Quiet, academic
+Features: Smaller building, tight-knit community
+
+Graham Residence Hall
+Location: Upper Quad
+Style: Hall-style
+Vibe: Chill, friendly
+Features: Close to Lenoir dining hall
+
+Grimes Residence Hall
+Location: Upper Quad
+Style: Hall-style
+Vibe: Calm environment
+Features: Small dorm, good for students seeking quiet
+
+Joyner Residence Hall
+Location: Upper Quad
+Style: Hall-style
+Vibe: Balanced, relaxed
+Features: Known for strong community
+
+Kenan Residence Hall
+Location: Upper Quad
+Style: Hall-style
+Vibe: Classic historic dorm
+Features: Close to the Pit and main campus buildings
+
+Lewis Residence Hall
+Location: Upper Quad
+Style: Hall-style
+Vibe: Quiet and traditional
+Features: Smaller community, beloved by residents
+
+Mangum Residence Hall
+Location: Upper Quad
+Style: Hall-style
+Vibe: Historic + academic
+Features: One of the older UNC buildings
+
+Manly Residence Hall
+Location: Upper Quad
+Style: Hall-style
+Vibe: Studious, calm
+Features: Very close to classes and dining
+
+McIver Residence Hall
+Location: Upper Quad
+Style: Hall-style
+Vibe: Mature, quiet
+Features: Close to main quad and Wilson Library
+
+Old East Residence Hall
+Location: North Campus
+Style: Hall-style
+Vibe: Historic & classic
+Features: Oldest public university building in the U.S.
+
+Old West Residence Hall
+Location: North Campus
+Style: Hall-style
+Vibe: Traditional
+Features: Twin building to Old East
+
+Ruffin Jr. Residence Hall
+Location: Upper Quad
+Style: Hall-style
+Vibe: Smaller community
+Features: Quiet, central location
+
+Spencer Residence Hall
+Location: Upper Quad
+Style: Hall-style
+Vibe: High-achieving, academic
+Features: Historically honors-themed
+
+Stacy Residence Hall
+Location: Upper Quad
+Style: Hall-style
+Vibe: Friendly, slightly more social than others
+Features: Next to dining & quads
+
+Winston Residence Hall
+Location: Upper Quad
+Style: Hall-style
+Vibe: Balanced
+Features: Popular with first-years
+
+---
+
+🟧 SOUTH CAMPUS FIRST-YEAR DORMS
+(Bigger buildings, more social, lots of freshmen)
+
+Craige Residence Hall
+Location: South Campus
+Style: Suite-style
+Vibe: Very social
+Features: 8-person suites, lots of community events
+
+Craige North Residence Hall
+Location: South Campus
+Style: Suite-style
+Vibe: Moderate social
+Features: Smaller than Craige, slightly quieter
+
+Ehringhaus Residence Hall
+Location: South Campus
+Style: Suite-style
+Vibe: Social, lively
+Features: Many athletes live here
+
+Hinton James (HoJo)
+Location: South Campus
+Style: Suite-style
+Vibe: Most social dorm on campus
+Features: Freshman-heavy, known for energy, big building
+
+Horton Residence Hall
+Location: South Campus
+Style: Suite-style
+Vibe: Newer + cleaner than older South Campus dorms
+Features: Larger rooms, quieter than HoJo/Ehringhaus
+
+Koury Residence Hall
+Location: South Campus
+Style: Suite-style
+Vibe: Balanced social/quiet
+Features: Renovated, good layout, near Rams Dining Hall
+
+---
+
+🟩 UPPERCLASS-ONLY HOUSING
+
+Ram Village (1–5 + Taylor)
+Location: South Campus
+Style: Apartment-style
+Vibe: Independent, upperclass community
+Features: Full kitchens, private bedrooms in most units
+Notes: Ram Village 4 is “Taylor Hall” now
+
+Baity Hill Apartments
+Location: South Campus (slightly off main campus)
+Style: Apartment-style
+Vibe: Family-friendly, quiet
+Residents: Graduate students, families
+Features: Full apartments, playgrounds, parking
+
+---
+
+🟨 MIXED CLASS YEARS (Freshmen + Upperclass)
+
+Avery Residence Hall
+Location: Mid Campus
+Style: Suite-style
+Vibe: Relaxed, strong community
+Features: Near the gym and stadium
+
+Carmichael Residence Hall
+Location: Mid Campus
+Style: Suite-style
+Vibe: Well-rounded, moderately social
+Features: Great location, near dining & classes
+
+Hardin Residence Hall
+Location: South Campus (Ram's Head area)
+Style: Suite-style
+Vibe: Quiet but modern
+Features: Updated building, strong privacy
+
+Morrison Residence Hall
+Location: South Campus
+Style: Suite-style
+Vibe: Social, big building
+Features: Eco-friendly, rec room, great study lounges
+
+Parker Residence Hall
+Location: Mid Campus
+Style: Suite-style
+Vibe: Very calm
+Features: Smaller suite building, close to Kenan Stadium
+
+Teague Residence Hall
+Location: Mid Campus
+Style: Suite-style
+Vibe: Academic, quiet
+Features: Often chosen by high-focus students
+
+---
+
+Source: UNC Housing, student reviews, campus guides
+https://housing.unc.edu/explore/residence-halls/

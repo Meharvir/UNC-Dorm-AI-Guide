@@ -1,0 +1,62 @@
+# Morrison Hall Student Reviews (Roomsurf)
+
+Extracted from Roomsurf testimonials. Each review includes date, reviewer, rating, and sentiment summary.
+
+---
+
+🗯💬🛀
+⏰  10/17/23
+Tyra R. (#122765) — 3.3/5.0
+"It was one of the better residence halls I stayed at UNC. It was cleaner than most and had decent common spaces. The elevator facilities are the only thing that were really troubling-- total of 3 elevators but only one worked at a time."
+
+🥳📈🧐
+⏰  01/15/21
+Brandon K. (#61897) — 4.1/5.0
+"COVID was interesting since none of the staff could come clean the areas regularly and we had to figure out between us and our suitemates. But overall I couldn't ask for much more than what I was given with this area."
+
+🛋🥳👍
+⏰  01/10/21
+Bryson A. (#58033) — 3.7/5.0
+"A friendly experience overall, a very caring and open environment. The staff was great and easy to work with. Location is a bit out of the way for North campus classes, but not too bad for south campus."
+
+🛀💬🧐
+⏰  01/05/21
+Hattie B. (#53437) — 3.4/5.0
+"Overall, I was satisfied with Morrison Hall being my first dorm experience. Although it is the oldest hall at Anderson University, it has been recently renovated. There are four floors with a full kitchen and common area on the ground floors. My RAs and RD were friendly and somewhat helpful. The hallways were always swept and clean, but the bathrooms could have been a bit more kept up. My biggest complaint would probably be the lack of water pressure in the showers. There were, however, six showers to each floor, which was convenient. I enjoyed the rooms, with hard floors, high ceilings and a reasonable amount of space. Each floor has a theme and a significant sense of community."
+
+📈✌️🔎
+⏰  11/12/20
+Olivia G. (#17629) — 3.4/5.0
+"Morrison has been an enjoyable experience even during covid-19. It’s quiet, I have a single and each suite has a rest room. It’s by a parking deck. Its a short drive to Franklin St and a walk wouldn’t be more than 15-20 minutes."
+
+🏠🧐🗯
+⏰  11/08/20
+Kathleen O. (#14985) — 4.6/5.0
+"The camaraderie and opportunities to socialise, have quiet areas for studying, and/or enjoy the sun and snow in the enclosed courtyard were amazing. Without being part of the dorm experience, I feel that my immersion in the college experience would have been lacking. The best way to form your initial - and eventually lifelong - friendships is via living and participating in on-campus dorm living!"
+
+🏠🗯🧐
+⏰  11/03/20
+Khaley S. (#13533) — 3.7/5.0
+"I feel that Morrison has been such a wonderful place to live and call my second home! Everyone is super nice and always helpful and when there are problems they get fixed very fast! I feel that it is a wonderful building and has a short walk to class which is always nice!"
+
+🔎🧐📈
+⏰  10/20/20
+Verified Resident (#8557) — 3.6/5.0
+"It hasn't been extremely terrible but not great either. The AC and heating aren't always working and the bathrooms should have better maintenance. I have also smelled sulfur in my room and have had to report it."
+
+✌️📈💬
+⏰  09/23/20
+Trisha W. (#2176) — 4.3/5.0
+"My time at Morrison Hall was good besides having a small room. I really liked staying here because it was close to Rams gym and the dining hall. It was also easy to catch the bus because a bus stop was only a short walk away."
+
+🛋🥳🔎
+⏰  09/14/20
+Verified Resident (#983) — 3.2/5.0
+"It was pretty great. I didn’t have a roommate. I only shared the bathroom with one other person in my suite. It was during COVID so I only stayed for about a week. The study rooms are really nice. I always studied in there."
+
+---
+
+Source: Roomsurf.com student testimonials (2025)
+https://www.roomsurf.com/dorm-reviews/unc
+
+Use this file to add real student sentiment for Morrison Hall to your RAG database.
