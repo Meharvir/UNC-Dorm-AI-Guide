@@ -25,6 +25,12 @@ We enhanced Google's Gemini AI with RAG (Retrieval-Augmented Generation) to grou
 
 ## Project Structure
 
+```
+├── Backend/          # FastAPI server and RAG implementation
+├── Frontend/         # React chat interface
+└── data/docs/        # UNC housing data corpus
+```
+
 
 ## Setup
 
