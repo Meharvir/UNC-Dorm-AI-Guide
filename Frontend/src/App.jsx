@@ -4,11 +4,11 @@ import "./App.css";
 // Backend URL
 const API_URL = "http://127.0.0.1:8002/query";
 
-async function sendMessageToBackend(message) {
+async function sendMessageToBackend(message, expand = false) {
   const res = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message }),
+    body: JSON.stringify({ message, expand }),
   });
 
   if (!res.ok) {
@@ -30,6 +30,7 @@ function App() {
   const [sessions, setSessions] = useState([]);
   const [currentSessionId, setCurrentSessionId] = useState(null);
   const [showSessions, setShowSessions] = useState(false);
+  const [expandedMessages, setExpandedMessages] = useState(new Set());
 
   const quickFilters = [
     "Quiet dorm close to classes",
@@ -74,11 +75,11 @@ function App() {
     setIsLoading(true);
 
     try {
-      const data = await sendMessageToBackend(trimmed);
+      const data = await sendMessageToBackend(trimmed, false);
       const botText = data.response || "Sorry, I couldn't generate a response.";
       setMessages([
         ...newMessages,
-        { sender: "bot", text: botText, id: newMessages.length },
+        { sender: "bot", text: botText, id: newMessages.length, fullText: botText },
       ]);
     } catch (err) {
       console.error(err);
@@ -90,6 +91,44 @@ function App() {
           id: newMessages.length,
         },
       ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Expand message to show full content
+  const handleExpandMessage = async (messageId) => {
+    if (expandedMessages.has(messageId)) {
+      // Collapse
+      setExpandedMessages(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(messageId);
+        return newSet;
+      });
+      return;
+    }
+
+    // Find the user's original question
+    const messageIndex = messages.findIndex(m => m.id === messageId);
+    const userMessage = messageIndex > 0 ? messages[messageIndex - 1] : null;
+    
+    if (!userMessage || userMessage.sender !== "user") return;
+
+    // Request expanded version
+    setIsLoading(true);
+    try {
+      const data = await sendMessageToBackend(userMessage.text, true);
+      const expandedText = data.response || messages.find(m => m.id === messageId).text;
+      
+      setMessages(prev =>
+        prev.map(m =>
+          m.id === messageId ? { ...m, fullText: expandedText } : m
+        )
+      );
+      
+      setExpandedMessages(prev => new Set(prev).add(messageId));
+    } catch (err) {
+      console.error(err);
     } finally {
       setIsLoading(false);
     }
@@ -115,6 +154,7 @@ function App() {
     setSessions([newSession, ...sessions]);
     setCurrentSessionId(newSession.id);
     setMessages(newSession.messages);
+    setExpandedMessages(new Set());
   };
 
   // Load a saved session
@@ -124,6 +164,7 @@ function App() {
       setCurrentSessionId(sessionId);
       setMessages(session.messages);
       setSearchQuery("");
+      setExpandedMessages(new Set());
     }
   };
 
@@ -135,6 +176,7 @@ function App() {
       setMessages([
         { sender: "bot", text: "Hi! I'm the UNC Dorm Guide. Tell me what you're looking for in a dorm.", id: 0 },
       ]);
+      setExpandedMessages(new Set());
     }
   };
 
@@ -142,6 +184,11 @@ function App() {
   const filteredMessages = messages.filter(m =>
     m.text.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Check if message is truncated
+  const isTruncated = (text) => {
+    return text.includes('...') || text.includes('Want a breakdown of each? 👇');
+  };
 
   return (
     <div className="app">
@@ -224,7 +271,20 @@ function App() {
                 key={idx}
                 className={`message-row ${m.sender === "user" ? "user-row" : "bot-row"}`}
               >
-                <div className={`bubble ${m.sender}`}>{m.text}</div>
+                <div className="message-content">
+                  <div className={`bubble ${m.sender}`}>
+                    {expandedMessages.has(m.id) && m.fullText ? m.fullText : m.text}
+                  </div>
+                  {m.sender === "bot" && isTruncated(m.text) && (
+                    <button
+                      className="expand-btn"
+                      onClick={() => handleExpandMessage(m.id)}
+                      disabled={isLoading}
+                    >
+                      {expandedMessages.has(m.id) ? "Show less" : "Show more"}
+                    </button>
+                  )}
+                </div>
               </div>
             ))}
 

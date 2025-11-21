@@ -82,6 +82,11 @@ def format_response(text: str, expand: bool = False):
     text = re.sub(r'#{1,6}\s*', '', text)  # Remove headers
     # Normalize bullets
     text = re.sub(r'[•\u2022\u2023\u25E6]', '-', text)
+    
+    # Remove citation artifacts like (Name, Source) or (Source)
+    text = re.sub(r'\s*\([^)]*(?:Roomsurf|RoomSurf|roomsurf)[^)]*\)', '', text, flags=re.IGNORECASE)
+    text = re.sub(r'\s*\([A-Z][a-z]+\s+[A-Z]\.,\s*[^)]+\)', '', text)  # Remove (FirstName L., Source)
+    text = re.sub(r'\s*\([A-Z][a-z]+\s+[A-Z][a-z]+,\s*[^)]+\)', '', text)  # Remove (FirstName LastName, Source)
 
     # Replace filename citations like [hinton_james.txt] with friendly source names
     def _replace_fn(m):
@@ -112,11 +117,10 @@ def format_response(text: str, expand: bool = False):
             snippet = summary if summary else ''
             snippet = snippet.split('.')[0][:80].strip()
             short_lines.append(f"{i+1}. {name} — {snippet}".strip())
-        short_lines.append('\nWant a breakdown of each? 👇')
         short = '\n'.join(short_lines)
         # enforce short length
         if len(short) > 320:
-            short = short[:300].rstrip() + '...\n\nWant a breakdown of each? 👇'
+            short = short[:300].rstrip() + '...'
         # Remove duplicate lines and repeated greetings
         seen = set()
         cleaned_lines = []
@@ -138,7 +142,6 @@ def format_response(text: str, expand: bool = False):
     summary = ' '.join(sentences[:2]).strip()
     if len(summary) > 320:
         summary = summary[:300].rstrip() + '...'
-    summary += '\n\nWant a breakdown of each? 👇'
     return summary
 
 def build_prompt(message: str, session_id: str, context: str = None):
@@ -157,9 +160,9 @@ def build_prompt(message: str, session_id: str, context: str = None):
     base += (
         "\nOUTPUT RULES:\n- Answer in a single concise block; do not include multiple Q&A or repeated greetings.\n"
         "- Start with a short emoji summary if listing recommendations (one line).\n"
-        "- Do not repeat the user's question or include internal filenames.\n"
-        "- If you want to offer more detail, append a single line: 'Want a breakdown of each? 👇' and stop.\n"
-        "- Keep the response short (max ~300 characters) unless asked to expand.\n"
+        "- Do not repeat the user's question or include internal filenames or mention any rag sources fro internal database.\n"
+        "- Keep the response short (max 4 sentences) unless asked to expand.\n"
+        "- Use Bullet points systematically for recommendations if listing anything.\n"
     )
     return base
 from fastapi.responses import JSONResponse
